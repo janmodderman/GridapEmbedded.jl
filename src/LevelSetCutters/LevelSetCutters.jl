@@ -30,6 +30,7 @@ using Gridap.CellData
 using Gridap.Polynomials
 using Gridap.Visualization
 using Gridap.FESpaces
+using Gridap.Adaptivity
 
 export LevelSetCutter
 export AnalyticalGeometry
@@ -72,6 +73,10 @@ function cut(background::DiscreteModel,geom::DiscreteGeometry)
   cut(cutter,background,geom)
 end
 
+function cut(cutter::LevelSetCutter,background::AdaptedDiscreteModel,geom)
+  cut(cutter,get_model(background),geom)
+end 
+
 function _cut_ls(model::DiscreteModel,geom)
   grid = get_grid(model)
   _cut_ls(grid,geom)
@@ -107,6 +112,10 @@ end
 function cut_facets(cut::EmbeddedFacetDiscretization,args...)
   cut
 end
+
+function cut_facets(cutter::LevelSetCutter,background::AdaptedDiscreteModel,geom)
+  cut_facets(cutter,get_model(background),geom)
+end 
 
 function _cut_ls_facets(model::DiscreteModel,geom)
   D = num_cell_dims(model)

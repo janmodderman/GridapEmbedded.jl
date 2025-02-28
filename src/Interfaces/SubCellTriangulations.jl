@@ -30,6 +30,10 @@ struct SubCellTriangulation{Dc,Dp,T,A} <: Triangulation{Dc,Dp}
   end
 end
 
+function SubCellTriangulation(subcells::SubCellData,bgmodel::AdaptedDiscreteModel)
+  SubCellTriangulation(subcells,get_model(bgmodel))
+end
+
 function get_background_model(a::SubCellTriangulation)
   a.bgmodel
 end
