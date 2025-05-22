@@ -1,14 +1,14 @@
 
-struct DistributedEmbeddedDiscretization{Dc,Dp,A,B} <: GridapType
+struct DistributedEmbeddedDiscretization{A,B} <: GridapType
   discretizations::A
   model::B
   function DistributedEmbeddedDiscretization(
-    discretizations::AbstractArray{<:AbstractEmbeddedDiscretization{Dc,Dp}},
+    discretizations::AbstractArray{<:AbstractEmbeddedDiscretization},
     model::DistributedDiscreteModel
-  ) where {Dc,Dp}
+  )
     A = typeof(discretizations)
     B = typeof(model)
-    new{Dc,Dp,A,B}(discretizations,model)
+    new{A,B}(discretizations,model)
   end
 end
 
@@ -89,10 +89,18 @@ for TT in (:Triangulation,:SkeletonTriangulation,:BoundaryTriangulation,:Embedde
 end
 
 # TODO: This should go to GridapDistributed
+function get_tangent_vector(a::DistributedTriangulation)
+  fields = map(get_tangent_vector,local_views(a))
+  DistributedCellField(fields,a)
+end
+
+# TODO: This should go to GridapDistributed
 function remove_ghost_cells(trian::AppendedTriangulation,gids)
   a = remove_ghost_cells(trian.a,gids)
   b = remove_ghost_cells(trian.b,gids)
-  lazy_append(a,b)
+  iszero(num_cells(a)) && return b
+  iszero(num_cells(b)) && return a
+  return lazy_append(a,b)
 end
 
 function remove_ghost_cells(trian::Union{SubFacetTriangulation{Df,Dc},SubFacetBoundaryTriangulation{Df,Dc}},gids) where {Df,Dc}
