@@ -4,12 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.7] - 2025-6-11
+
+### Added
+
+- Added support for Gridap v0.19. Since PR[#110](https://github.com/gridap/GridapEmbedded.jl/pull/110).
+
+## [0.9.6] - 2025-04-19
 
 ### Added
 
 - Added support for distributed level-set geometries. Since PR[#99](https://github.com/gridap/GridapEmbedded.jl/pull/99).
 - Refactored the distributed code to allow for ghosted/unghosted geometries and triangulations. Since PR[#100](https://github.com/gridap/GridapEmbedded.jl/pull/100).
+- Implemented geometrical derivatives. Since PR[#109](https://github.com/gridap/GridapEmbedded.jl/pull/109).
+- Added a proper documentation. Since PR[#109](https://github.com/gridap/GridapEmbedded.jl/pull/109).
+
+### Changed
+
+- Swapped `LightGraphs.jl` dependency to `Graphs.jl`, due to the former being deprecated. Since PR[#108](https://github.com/gridap/GridapEmbedded.jl/pull/108).
 
 ## [0.9.5] - 2024-10-18
 
